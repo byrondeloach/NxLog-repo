@@ -1,4 +1,4 @@
-This repo contains a moduler NsLog configs for both NxLog Community Eddition and NxLog Enterprise Edition. 
+This repo contains a moduler NxLog configs for both NxLog Community Eddition and NxLog Enterprise Edition. 
 Does not work with NxLog manager!!
 
 After installing rename the default nxlog.conf to something that will not be recognized as a config file. nxlog.orig is a good example of this.
