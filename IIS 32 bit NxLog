@@ -1,0 +1,36 @@
+define ROOT C:\Program Files (x86)\nxlog                                       
+
+Moduledir %ROOT%\modules                                                       
+CacheDir %ROOT%\data                                                           
+Pidfile %ROOT%\data\nxlog.pid                                                  
+SpoolDir %ROOT%\data                                                           
+LogFile %ROOT%\data\nxlog.log                                                  
+
+
+<Extension syslog>                                                             
+Module xm_syslog                                                               
+</Extension>                                                                   
+
+
+<Input in_iis>                                                                 
+Module im_file                                                                 
+File "C:\\inetpub\\logs\\LogFiles\\W3SVC1\\u_ex*"                              
+SavePos TRUE                                                                   
+ReadFromLast TRUE                                                              
+Exec if $raw_event =~ /^#/ drop();                                             
+Exec $Message = $raw_event;                                                    
+</Input>                                                                       
+
+<Output out_iis>                                                               
+Module om_tcp                                                                  
+Host 10.51.100.8                                                               
+Port 11613                                                                       
+Exec $SyslogFacilityValue = 2;                                                 
+Exec $SourceName = 'windows_iis_logs';                                         
+Exec to_syslog_bsd();                                                          
+</Output>                                                                      
+
+
+<Route in-to-out>                                                              
+Path in_iis => out_iis                                                         
+</Route>                                  
